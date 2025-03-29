@@ -6,7 +6,7 @@ import { Op } from 'sequelize';
 const LIMIT = 50;
 const attributes = ['imdbId', 'title', 'genres', 'releaseDate', 'budget']
 
-export const byYear = async (req: Request, res: Response) => {
+export const moviesByYear = async (req: Request, res: Response) => {
   try {
     const pageNumber = req.query?.page as string || "1";
     const year = req.params?.year || "0";
