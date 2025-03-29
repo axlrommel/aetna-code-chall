@@ -13,14 +13,18 @@ export const movieDetails = async (req: Request, res: Response) => {
         imdbId
       }, raw: true, attributes
     });
-    const averageRating = await Rating.findOne({
-      where: { movieId: dbMovie.movieId },
-      attributes: [
-        [Sequelize.fn('AVG', Sequelize.col('rating')), 'rating'],
-      ],
-    })
-    const details = { ...dbMovie, rating: averageRating.rating.toFixed(2), budget: formatToCurrency(dbMovie.budget), movieId: undefined }
-    res.status(200).json(details);
+    if (dbMovie) {
+      const averageRating = await Rating.findOne({
+        where: { movieId: dbMovie.movieId },
+        attributes: [
+          [Sequelize.fn('AVG', Sequelize.col('rating')), 'rating'],
+        ],
+      })
+      const details = { ...dbMovie, rating: averageRating.rating.toFixed(2), budget: formatToCurrency(dbMovie.budget), movieId: undefined }
+      res.status(200).json(details);
+      return;
+    }
+    res.status(404).send("not found");
   } catch (e) {
     console.log(e);
     res.status(500).send('server error')
