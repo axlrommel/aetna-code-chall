@@ -1,6 +1,8 @@
-import {sequelize} from '../config/connection';
+import {moviesDb, ratingsDb} from '../config/connection';
 import { MovieFactory } from './Movie';
+import { RatingFactory } from './Rating';
 
-const Movie = MovieFactory(sequelize);
+const Movie = MovieFactory(moviesDb);
+const Rating = RatingFactory(ratingsDb);
 
-export { sequelize, Movie };
+export { moviesDb, ratingsDb, Movie, Rating };

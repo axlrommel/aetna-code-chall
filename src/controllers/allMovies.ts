@@ -1,13 +1,16 @@
 import { Request, Response } from 'express';
 import { Movie } from "../models";
+import { formatToCurrency } from '../utils/tools';
 
-const PAGE = 50;
+const LIMIT = 50;
 const attributes = ['imdbId', 'title', 'genres', 'releaseDate', 'budget']
 
-export const getAllMovies = async (req: Request, res: Response) => {
+export const allMovies = async (req: Request, res: Response) => {
   try {
-    const movies = await Movie.findAll({ attributes, limit: PAGE });
-    // const movies = dbMovies.map(m => ({ budget: `$ ${movies?.budget}`, ...m }))
+    const pageNumber = req.query?.page as string || "1";
+    const offset = (parseInt(pageNumber) - 1) * LIMIT;
+    const dbMovies = await Movie.findAll({ raw: true, offset, attributes, limit: LIMIT });
+    const movies = dbMovies.map(m => ({ ...m, budget: formatToCurrency(m.budget) }))
     res.status(200).json(movies);
   } catch (e) {
     console.log(e);
