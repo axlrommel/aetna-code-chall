@@ -8,8 +8,8 @@ import { moviesByGenre } from './controllers/moviesByGenre';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.get('/movies/:imdbId', movieDetails)
-app.get('/movies', allMovies)
+app.get('/movies/:imdbId', movieDetails);
+app.get('/movies', allMovies);
 app.get('/movies/year/:year', moviesByYear);
 app.get('/movies/genre/:genre', moviesByGenre);
 

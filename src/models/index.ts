@@ -1,4 +1,4 @@
-import {moviesDb, ratingsDb} from '../config/connection';
+import { moviesDb, ratingsDb } from '../config/connection';
 import { MovieFactory } from './Movie';
 import { RatingFactory } from './Rating';
 

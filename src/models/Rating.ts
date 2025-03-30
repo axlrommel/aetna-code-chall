@@ -9,29 +9,32 @@ export class Rating extends Model {
 }
 
 export function RatingFactory(sequelize: Sequelize): typeof Rating {
-  Rating.init({
-    ratingId: {
-      allowNull: false,
-      primaryKey: true,
-      type: DataTypes.INTEGER
+  Rating.init(
+    {
+      ratingId: {
+        allowNull: false,
+        primaryKey: true,
+        type: DataTypes.INTEGER,
+      },
+      userId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      movieId: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
+      rating: {
+        allowNull: false,
+        type: DataTypes.REAL,
+      },
+      timestamp: {
+        allowNull: false,
+        type: DataTypes.INTEGER,
+      },
     },
-    userId: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-    movieId: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-    rating: {
-      allowNull: false,
-      type: DataTypes.REAL
-    },
-    timestamp: {
-      allowNull: false,
-      type: DataTypes.INTEGER
-    },
-  }, { sequelize, modelName: 'ratings', timestamps: false })
+    { sequelize, modelName: 'ratings', timestamps: false },
+  );
 
   return Rating;
 }
