@@ -3,8 +3,8 @@ import { Movie } from '../models';
 import { formatToCurrency } from '../utils/tools';
 import { Op } from 'sequelize';
 
-const LIMIT = 50;
-const attributes = ['imdbId', 'title', 'genres', 'releaseDate', 'budget'];
+export const LIMIT = 50;
+export const attributes = ['imdbId', 'title', 'genres', 'releaseDate', 'budget'];
 
 export const moviesByYear = async (req: Request, res: Response) => {
   try {

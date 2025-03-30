@@ -13,7 +13,7 @@ export const allMovies = async (req: Request, res: Response) => {
     const movies = dbMovies.map((m) => ({ ...m, budget: formatToCurrency(m.budget) }));
     res.status(200).json(movies);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).send('server error');
   }
 };

@@ -3,7 +3,7 @@ import { Movie, Rating } from '../models';
 import { formatToCurrency } from '../utils/tools';
 import { Sequelize } from 'sequelize';
 
-const attributes = [
+export const attributes = [
   'imdbId',
   'movieId',
   'title',

@@ -9,11 +9,7 @@ export const attributes = ['imdbId', 'title', 'genres', 'releaseDate', 'budget']
 export const moviesByGenre = async (req: Request, res: Response) => {
   try {
     const pageNumber = (req.query?.page as string) || '1';
-    const genre = req.params?.genre || '';
-    if (!genre) {
-      res.status(400).send('invalid genre');
-      return;
-    }
+    const genre = req.params?.genre;
     const offset = (parseInt(pageNumber) - 1) * LIMIT;
     const dbMovies = await Movie.findAll({
       where: {
@@ -29,7 +25,7 @@ export const moviesByGenre = async (req: Request, res: Response) => {
     const movies = dbMovies.map((m) => ({ ...m, budget: formatToCurrency(m.budget) }));
     res.status(200).json(movies);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     res.status(500).send('server error');
   }
 };

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Op } from 'sequelize';
-import { moviesByGenre, LIMIT, attributes } from '../controllers/moviesByGenre';
+import { moviesByYear, LIMIT, attributes } from '../controllers/moviesByYear';
 import { Movie } from '../models/Movie';
 
 jest.mock('../models/Movie', () => {
@@ -29,7 +29,7 @@ describe('allMovies Controller', () => {
 
     req = {
       query: { page: '1' },
-      params: { genre: 'Drama' },
+      params: { year: '2002' },
     };
 
     res = {
@@ -47,11 +47,23 @@ describe('allMovies Controller', () => {
     const genre2 = JSON.stringify([{ id: 18, name: 'Drama' }]);
 
     (Movie.findAll as jest.Mock).mockResolvedValue([
-      { imdbId: 1, title: 'The Matrix', budget: 63000000, genres: genre1 },
-      { imdbId: 2, title: 'Inception', budget: 160000000, genres: genre2 },
+      {
+        imdbId: 1,
+        title: 'The Matrix',
+        budget: 63000000,
+        genres: genre1,
+        releaseDate: '2002-10-01',
+      },
+      {
+        imdbId: 2,
+        title: 'Inception',
+        budget: 160000000,
+        genres: genre2,
+        releaseDate: '2002-11-04',
+      },
     ] as any);
 
-    await moviesByGenre(req as Request, res as Response);
+    await moviesByYear(req as Request, res as Response);
 
     expect(Movie.findAll).toHaveBeenCalledWith({
       raw: true,
@@ -59,22 +71,34 @@ describe('allMovies Controller', () => {
       attributes,
       limit: LIMIT,
       where: {
-        genres: {
-          [Op.like]: '%Drama%',
+        releaseDate: {
+          [Op.startsWith]: '2002',
         },
       },
     });
     expect(statusMock).toHaveBeenCalledWith(200);
     expect(jsonMock).toHaveBeenCalledWith([
-      { imdbId: 1, title: 'The Matrix', budget: '$63,000,000.00', genres: genre1 },
-      { imdbId: 2, title: 'Inception', budget: '$160,000,000.00', genres: genre2 },
+      {
+        imdbId: 1,
+        title: 'The Matrix',
+        budget: '$63,000,000.00',
+        genres: genre1,
+        releaseDate: '2002-10-01',
+      },
+      {
+        imdbId: 2,
+        title: 'Inception',
+        budget: '$160,000,000.00',
+        genres: genre2,
+        releaseDate: '2002-11-04',
+      },
     ]);
   });
 
   it('should handle server errors', async () => {
     jest.spyOn(Movie, 'findAll').mockRejectedValue('Database error');
 
-    await moviesByGenre(req as Request, res as Response);
+    await moviesByYear(req as Request, res as Response);
 
     expect(statusMock).toHaveBeenCalledWith(500);
     expect(sendMock).toHaveBeenCalledWith('server error');
