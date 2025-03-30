@@ -1,8 +1,18 @@
 import { Request, Response } from 'express';
 import { allMovies } from '../controllers/allMovies';
 import { movieDetails } from '../controllers/movieDetails';
+import { moviesByGenre } from '../controllers/moviesByGenre';
+import { moviesByYear } from '../controllers/moviesByYear';
 
-describe('any controller', () => {
+const testedMovie = {
+  budget: '$4,000,000.00',
+  genres: '[{"id": 80, "name": "Crime"}, {"id": 35, "name": "Comedy"}]',
+  imdbId: 'tt0113101',
+  releaseDate: '1995-12-09',
+  title: 'Four Rooms',
+};
+
+describe('controllers integration testing', () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let jsonMock: jest.Mock;
@@ -28,18 +38,31 @@ describe('any controller', () => {
     await allMovies(req as Request, res as Response);
 
     expect(statusMock).toHaveBeenCalledWith(200);
-    expect(jsonMock).toHaveBeenCalledWith(
-      expect.arrayContaining([
-        {
-          budget: '$4,000,000.00',
-          genres: '[{"id": 80, "name": "Crime"}, {"id": 35, "name": "Comedy"}]',
-          imdbId: 'tt0113101',
-          releaseDate: '1995-12-09',
-          title: 'Four Rooms',
-        },
-      ]),
-    );
+    expect(jsonMock).toHaveBeenCalledWith(expect.arrayContaining([testedMovie]));
   });
+
+  it('moviesByGenre integration test', async () => {
+    req = {
+      query: { page: '1' },
+      params: { genre: 'Comedy' },
+    };
+    await moviesByGenre(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(200);
+    expect(jsonMock).toHaveBeenCalledWith(expect.arrayContaining([testedMovie]));
+  });
+
+  it('moviesByYear integration test', async () => {
+    req = {
+      query: { page: '1' },
+      params: { year: '1995' },
+    };
+    await moviesByYear(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(200);
+    expect(jsonMock).toHaveBeenCalledWith(expect.arrayContaining([testedMovie]));
+  });
+
   it('movieDetails integration test', async () => {
     req = {
       params: { imdbId: 'tt0113101' },
