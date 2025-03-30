@@ -86,4 +86,15 @@ describe('controllers integration testing', () => {
       runtime: 98,
     });
   });
+
+  it('movieDetails 404 error', async () => {
+    req = {
+      params: { imdbId: '1' },
+    };
+    
+    await movieDetails(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(404);
+    expect(sendMock).toHaveBeenCalledWith("not found");
+  });
 });

@@ -101,4 +101,13 @@ describe('movieDetails Controller', () => {
     expect(statusMock).toHaveBeenCalledWith(500);
     expect(sendMock).toHaveBeenCalledWith('server error');
   });
+
+  it('returns 404 if imbdId passed is not found', async () => {
+    (Movie.findOne as jest.Mock).mockResolvedValue(undefined);
+
+    await movieDetails(req as Request, res as Response);
+
+    expect(statusMock).toHaveBeenCalledWith(404);
+    expect(sendMock).toHaveBeenCalledWith('not found');
+  });
 });
