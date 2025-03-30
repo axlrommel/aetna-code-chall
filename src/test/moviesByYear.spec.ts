@@ -15,7 +15,7 @@ jest.mock('../models/Movie', () => {
   };
 });
 
-describe('allMovies Controller', () => {
+describe('moviesByYear Controller', () => {
   let req: Partial<Request>;
   let res: Partial<Response>;
   let jsonMock: jest.Mock;
