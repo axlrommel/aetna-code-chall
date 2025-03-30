@@ -91,10 +91,10 @@ describe('controllers integration testing', () => {
     req = {
       params: { imdbId: '1' },
     };
-    
+
     await movieDetails(req as Request, res as Response);
 
     expect(statusMock).toHaveBeenCalledWith(404);
-    expect(sendMock).toHaveBeenCalledWith("not found");
+    expect(sendMock).toHaveBeenCalledWith('not found');
   });
 });

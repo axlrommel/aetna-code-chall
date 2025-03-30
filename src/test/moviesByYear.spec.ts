@@ -46,7 +46,7 @@ describe('moviesByYear Controller', () => {
     ]);
     const genre2 = JSON.stringify([{ id: 18, name: 'Drama' }]);
 
-    jest.spyOn(Movie, "findAll").mockResolvedValue([
+    jest.spyOn(Movie, 'findAll').mockResolvedValue([
       {
         imdbId: 1,
         title: 'The Matrix',
