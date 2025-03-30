@@ -103,7 +103,7 @@ describe('movieDetails Controller', () => {
   });
 
   it('returns 404 if imbdId passed is not found', async () => {
-    (Movie.findOne as jest.Mock).mockResolvedValue(undefined);
+    jest.spyOn(Movie, 'findOne').mockResolvedValue(undefined);
 
     await movieDetails(req as Request, res as Response);
 

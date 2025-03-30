@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "npx tsx ./src/app.ts",
-    "test": "jest",
+    "test": "jest ./src",
     "lint": "eslint . --ext .ts",
     "build": "tsc",
     "prettify": "prettier --write --ignore-path .gitignore \"**/*.{css,html,ts,json,md,yaml,yml}\"",

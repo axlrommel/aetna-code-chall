@@ -38,7 +38,7 @@ describe('allMovies Controller', () => {
   });
 
   it('should return formatted movies', async () => {
-    (Movie.findAll as jest.Mock).mockResolvedValue([
+    jest.spyOn(Movie, 'findAll').mockResolvedValue([
       { imdbId: 1, title: 'The Matrix', budget: 63000000 },
       { imdbId: 2, title: 'Inception', budget: 160000000 },
     ] as any);
